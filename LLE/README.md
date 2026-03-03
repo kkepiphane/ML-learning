@@ -7,44 +7,41 @@
   <img src="https://img.shields.io/badge/Status-TP%20Académique-green.svg">
 </p>
 
+# Étude de la Variété des Visages : PCA vs LLE (Olivetti Faces)
+
+  Ce projet explore la réduction de dimensionnalité appliquée à la reconnaissance faciale. L'objectif est de comparer une approche linéaire (**PCA**) avec une approche non-linéaire (**Locally Linear Embedding - LLE**) pour visualiser la structure intrinsèque du dataset **Olivetti Faces**.
+
 ## Objectifs du TP
-- **Numérisation** : Transformer 400 images (64×64) en vecteurs de dimension 4096
-- **Visualisation 2D** : Projeter ces données pour identifier des clusters d'individus
-- **Comparaison** : Évaluer approches linéaire (PCA) vs non-linéaire (LLE)
-- **Optimisation** : Étudier l'influence du paramètre de voisinage (K)
+- **Extraction de caractéristiques** : Transformer des images de 64x64 pixels en vecteurs de dimension 4096.
+- **Visualisation 2D** : Projeter ces données de haute dimension dans un plan pour identifier des regroupements (clusters).
+- **Analyse de Variété (Manifold Learning)** : Démontrer que les visages suivent une structure non-linéaire (pose, expressions).
+- **Optimisation** : Étudier l'influence du nombre de voisins (K) et tester la variante **Modified LLE (MLLE)**.
 
-## Dataset : Olivetti Faces
-- **400 images** en niveaux de gris (10 par individu)
-- **40 sujets** avec variations :
-  -  Luminosité
-  -  Expressions (sourire/neutre)
-  -  Accessoires (lunettes)
-  -  Rotation légère
+## Le Dataset : Olivetti Faces
+Le dataset, provenant des [AT&T Laboratories Cambridge](https://scikit-learn.org), contient :
+- **400 images** en niveaux de gris.
+- **40 individus** différents (10 images par personne).
+- Des variations de lumière, d'expressions faciales (sourire/neutre) et de détails (lunettes/sans lunettes).
 
-##  Algorithmes Implémentés
+## Méthodologie & Algorithmes
 
 ### 1. PCA (Principal Component Analysis)
-**Approche linéaire** : Maximise la variance globale via les Eigenfaces
--  **Limite** : La rotation d'un visage est non-linéaire → mauvais clustering
+La PCA cherche à maximiser la variance globale. Elle identifie les **Eigenfaces** (vecteurs propres).
+- **Limites** : Elle peine à séparer les individus car la rotation d'un visage est une transformation non-linéaire.
 
 ### 2. LLE (Locally Linear Embedding)
-**Approche non-linéaire** : Préserve les relations de voisinage
--  **Avantage** : "Déplie" la variété des visages → meilleure séparation
+Le LLE préserve les relations de voisinage local.
+- **Hypothèse** : Chaque visage est une combinaison linéaire de ses K voisins les plus proches.
+- **Avantage** : Il "déplie" la variété des données pour mieux isoler les identités.
 
 ### 3. Modified LLE (MLLE)
-Version optimisée pour plus de stabilité numérique
+  Une version optimisée pour plus de stabilité numérique, offrant une projection plus nette et robuste aux bruits.
 
-## Résultats Visuels
-
-| Méthode   | K   | Résultat           | Qualité    |
-|---------  |---  |----------          |---------   |
-| PCA       | -   | Mélange complet    | Faible     |
-| LLE       | 5   | Fragmentation      | Bruité     |
-| LLE       | 15  | Clusters distincts | Optimal    |
-| LLE       | 50  | Fusion des classes | Trop lissé |
-| MLLE      | 15  | Très net           | Excellent  |
+## Installation & Utilisation
+    Le projet utilise la bibliothèque [Scikit-Learn](https://scikit-learn.org).
 
 
+    pip install numpy matplotlib scikit-learn
 
 
 ## Bibliothèques utilisées
@@ -54,5 +51,8 @@ Version optimisée pour plus de stabilité numérique
     from sklearn.datasets import fetch_olivetti_faces
     from sklearn.decomposition import PCA
     from sklearn.manifold import LocallyLinearEmbedding
+
+#### Pour simplifier, l'objectif unique du TP est de répondre à cette question :
+  Est-il possible de classer 400 photos de visages sur une simple feuille de papier (2D) tout en gardant les personnes identiques regroupées ensemble ?
 
 ```bash
